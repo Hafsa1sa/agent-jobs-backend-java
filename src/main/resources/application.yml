@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: jobs_agent
+
+  # Configuration de l'IA avec Ollama
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: llama3.1:8b
+        options:
+          temperature: 0.1  # Réduire pour plus de précision
+          top-p: 0.9
+          # Paramètres pour forcer l'utilisation des tools
+          num_predict: 2048
+          repeat_penalty: 1.1
+
+    # Configuration explicite du function calling
+    chat:
+      client:
+        function-calling:
+          enabled: true
+
+# Configuration personnalisée de l'application
+app:
+  tools:
+    freelancer:
+      base-url: http://localhost:5005
+
+# Configuration des logs pour un débogage détaillé
+logging:
+  level:
+    # Niveaux spécifiques pour Spring AI et les composants clés
+    org.springframework.ai: DEBUG
+    org.springframework.ai.chat: TRACE
+    org.springframework.ai.ollama: DEBUG
+    org.example.jobs_agent: TRACE
+    org.springframework.web.client: DEBUG
+  pattern:
+    # Format des logs pour la console
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
