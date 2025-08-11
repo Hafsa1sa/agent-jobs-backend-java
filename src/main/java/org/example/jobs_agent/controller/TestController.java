@@ -1,8 +1,8 @@
 package org.example.jobs_agent.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.jobs_agent.model.FreelancerRequest;
-import org.example.jobs_agent.model.FreelancerResponse;
+import org.example.jobs_agent.dto.FreelancerRequestDTO;
+import org.example.jobs_agent.dto.FreelancerResponseDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +13,11 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final Function<FreelancerRequest, FreelancerResponse> getFreelancerOffers;
+    private final Function<FreelancerRequestDTO, FreelancerResponseDTO> getFreelancerOffers;
 
     @GetMapping("/test-tool")
-    public FreelancerResponse testTool(@RequestParam(defaultValue = "3") int count) {
-        FreelancerRequest request = new FreelancerRequest(count);
+    public FreelancerResponseDTO testTool(@RequestParam(defaultValue = "3") int count) {
+        FreelancerRequestDTO request = new FreelancerRequestDTO(count);
         return getFreelancerOffers.apply(request);
     }
 }

@@ -1,9 +1,10 @@
 package org.example.jobs_agent.config;
 
 
-import org.example.jobs_agent.model.FreelancerRequest;
-import org.example.jobs_agent.model.FreelancerResponse;
-import org.example.jobs_agent.service.McpClientService;
+import org.example.jobs_agent.clientApi.ClientApiFreelance;
+import org.example.jobs_agent.dto.FreelancerRequestDTO;
+import org.example.jobs_agent.dto.FreelancerResponseDTO;
+import org.example.jobs_agent.tools.ScrapingTool;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -16,18 +17,18 @@ class ToolConfigTest {
     @Test
     void testGetFreelancerOffersCallback() {
         // Mock du service
-        McpClientService mockService = Mockito.mock(McpClientService.class);
+        ClientApiFreelance mockService = Mockito.mock(ClientApiFreelance.class);
         Mockito.when(mockService.getFreelancerProjects(3))
                 .thenReturn(java.util.List.of());
 
         // Instancie le bean tool
-        ToolConfig config = new ToolConfig();
-        Function<FreelancerRequest, FreelancerResponse> callback =
+        ScrapingTool config = new ScrapingTool();
+        Function<FreelancerRequestDTO, FreelancerResponseDTO> callback =
                 config.getFreelancerOffers(mockService);
 
         // Teste le callback
-        FreelancerRequest req = new FreelancerRequest(3);
-        FreelancerResponse resp = callback.apply(req);
+        FreelancerRequestDTO req = new FreelancerRequestDTO(3);
+        FreelancerResponseDTO resp = callback.apply(req);
 
         assertNotNull(resp);
         assertNotNull(resp.getProjects());
